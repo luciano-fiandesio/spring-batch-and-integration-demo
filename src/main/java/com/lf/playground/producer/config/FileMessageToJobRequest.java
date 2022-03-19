@@ -25,7 +25,7 @@ public class FileMessageToJobRequest {
 
     @Transformer
     public JobLaunchRequest toRequest(Message<File> message) {
-        JobParametersBuilder jobParametersBuilder = new JobParametersBuilder();
+        var jobParametersBuilder = new JobParametersBuilder();
 
         jobParametersBuilder.addString(fileParameterName, message.getPayload().getAbsolutePath());
         // We add a dummy value to make job params unique, or else spring batch

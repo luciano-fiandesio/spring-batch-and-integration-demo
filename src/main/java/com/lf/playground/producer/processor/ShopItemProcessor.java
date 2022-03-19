@@ -20,7 +20,7 @@ public class ShopItemProcessor implements ItemProcessor<User, User> {
         if (isValid(user)) {
 
             try {
-                final String path = this.imageDownloader.downloadImage(user);
+                final var path = this.imageDownloader.downloadImage(user);
 
                 return new User(user.getId(),
                         user.getTenantId(),

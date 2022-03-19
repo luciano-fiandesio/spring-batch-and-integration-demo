@@ -20,7 +20,7 @@ public class ImageDownloader {
     private final int READ_TIMEOUT = 10000;
 
     public String downloadImage(User user) throws IOException {
-        final String downloadPath = FilenameUtils.concat(DOWNLOAD_PATH, UUID.randomUUID().toString());
+        final var downloadPath = FilenameUtils.concat(DOWNLOAD_PATH, UUID.randomUUID().toString());
         FileUtils.copyURLToFile(
                 new URL(user.getAvatarUrl()),
                 new File(downloadPath),

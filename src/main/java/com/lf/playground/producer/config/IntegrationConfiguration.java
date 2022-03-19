@@ -46,7 +46,7 @@ public class IntegrationConfiguration {
 
     @Bean
     FileMessageToJobRequest fileMessageToJobRequest() {
-        FileMessageToJobRequest transformer = new FileMessageToJobRequest();
+        var transformer = new FileMessageToJobRequest();
         transformer.setJob(feedIngestionJob);
         transformer.setFileParameterName("file_path");
         return transformer;
@@ -54,7 +54,7 @@ public class IntegrationConfiguration {
 
     @Bean
     public JobLaunchingGateway jobLaunchingGateway() {
-        SimpleJobLauncher simpleJobLauncher = new SimpleJobLauncher();
+        var simpleJobLauncher = new SimpleJobLauncher();
 
         simpleJobLauncher.setJobRepository(jobRepository);
         simpleJobLauncher.setTaskExecutor(new SyncTaskExecutor());
@@ -96,9 +96,8 @@ public class IntegrationConfiguration {
 
     @Bean
     TransactionSynchronizationFactory transactionSynchronizationFactory() {
-        ExpressionParser parser = new SpelExpressionParser();
-        ExpressionEvaluatingTransactionSynchronizationProcessor syncProcessor =
-                new ExpressionEvaluatingTransactionSynchronizationProcessor();
+        var parser = new SpelExpressionParser();
+        var syncProcessor = new ExpressionEvaluatingTransactionSynchronizationProcessor();
         syncProcessor.setBeanFactory(applicationContext.getAutowireCapableBeanFactory());
         syncProcessor.setAfterCommitExpression(parser.parseExpression("payload.renameTo(new java.io.File(@inboundProcessedDirectory.path " +
                 " + T(java.io.File).separator + payload.name))"));
@@ -109,7 +108,7 @@ public class IntegrationConfiguration {
 
     @Bean
     public FileReadingMessageSource fileReadingMessageSource(DirectoryScanner directoryScanner) {
-        FileReadingMessageSource source = new FileReadingMessageSource();
+        var source = new FileReadingMessageSource();
         source.setDirectory(this.inboundReadDirectory);
         source.setScanner(directoryScanner);
         source.setAutoCreateDirectory(true);
@@ -118,8 +117,8 @@ public class IntegrationConfiguration {
 
     @Bean
     public DirectoryScanner directoryScanner(@Value("${inbound.filename.regex}") String regex) {
-        DirectoryScanner scanner = new RecursiveDirectoryScanner();
-        CompositeFileListFilter<File> filter = new CompositeFileListFilter<>(
+        var scanner = new RecursiveDirectoryScanner();
+        var filter = new CompositeFileListFilter<File>(
                 Arrays.asList(new AcceptOnceFileListFilter<>(),
                         new RegexPatternFileListFilter(regex))
         );

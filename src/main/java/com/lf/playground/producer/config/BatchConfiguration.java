@@ -27,14 +27,14 @@ public class BatchConfiguration {
     @Bean
     @StepScope
     public FlatFileItemReader<User> flatFileItemReader(@Value("#{jobParameters[file_path]}") String filePath) {
-        FlatFileItemReader<User> reader = new FlatFileItemReader<>();
+        var reader = new FlatFileItemReader<User>();
         reader.setLinesToSkip(1);
-        final FileSystemResource fileResource = new FileSystemResource(filePath);
+        final var fileResource = new FileSystemResource(filePath);
         reader.setResource(fileResource);
 
-        DefaultLineMapper<User> customerLineMapper = new DefaultLineMapper<>();
+        var customerLineMapper = new DefaultLineMapper<User>();
 
-        DelimitedLineTokenizer tokenizer = new DelimitedLineTokenizer();
+        var tokenizer = new DelimitedLineTokenizer();
         tokenizer.setNames("tenant_id", "first_name", "last_name", "avatar_url");
 
         customerLineMapper.setLineTokenizer(tokenizer);
@@ -51,7 +51,7 @@ public class BatchConfiguration {
 
     @Bean
     public KafkaItemWriter<String, User> writer() throws Exception {
-        KafkaItemWriter<String, User> writer = new KafkaItemWriter<>();
+        var writer = new KafkaItemWriter<String, User>();
         writer.setKafkaTemplate(kafkaTemplate);
         writer.setItemKeyMapper(User::idAsString);
         writer.setDelete(false);

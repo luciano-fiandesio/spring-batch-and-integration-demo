@@ -11,7 +11,7 @@ public class DatasourceConfig {
 
     @Bean
     public DataSource dataSource() {
-        HikariDataSource dataSource = new HikariDataSource();
+        var dataSource = new HikariDataSource();
         dataSource.setDriverClassName("org.h2.Driver");
         dataSource.setJdbcUrl("jdbc:h2:mem:testdb");
         dataSource.setUsername("sa");
