@@ -1,0 +1,46 @@
+server:
+  port: 9092
+spring:
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  batch:
+    job:
+      enabled: false
+
+  #Kafka configuration
+  kafka:
+    listener:
+      concurrency: 2
+    bootstrap-servers: localhost:29092
+    template:
+      default-topic: shop-items-topic
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      client-id: feed-producer-1
+
+inbound:
+  filename:
+    regex: ([^\s]+(\.(?i)(csv))$)
+  read:
+    path: ./data/inbound
+  processed:
+    path: ./data/processed
+  failed:
+    path: ./data/failed
+  out:
+    path: ./data/out
+  file:
+    poller:
+      max:
+        messages:
+          per:
+            poll: 1
+      fixed:
+        delay: 5000
+
+app:
+  img:
+    path: ./images
